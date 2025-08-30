@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>teste</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <main>
+        <input type="text" id="name" placeholder="Adicionar Jogador">
+        <button onclick="addPlayer()">Adicionar</button>
+        <ul id="listplayers"></ul>
+        <li id="team-1"></li>
+    </main>
+    
+    <script>
+        async function addPlayer() {
+            const name = document.getElementById("name").value;
+            const res = await fetch("http://localhost:8080/players",{
+                method: "POST",
+                headers: { "content-Type": "application/json"},
+                body: JSON.stringify({ name })
+            });
+            const player = await res.json();
+            console.log("salvo: ", player);
+        }
+
+        async function loadPlayers() {
+            const res = await fetch("http://localhost:8080/players/all");
+            const players = await res.json();
+            const listplayers = document.getElementById("listplayers");
+            listplayers.innerHTML = players.map(p => `<li>${p.name}</li>`).join("");
+        }
+
+        async function getTeam() {
+            const res = await fetch("http://localhost:8080/players/team");
+            const players = await res.json();
+            const listplayers = document.getElementById("team-1");
+            listplayers.innerHTML = players.map(p => `<li>${p.name}</li>`).join("");
+        }
+
+        loadPlayers();
+        getTeam();
+    </script>
+</body>
+</html>
