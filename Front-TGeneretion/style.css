@@ -37,6 +37,10 @@ button{
     border-style: none;
 }
 
+button:hover{
+    background-color: rgb(87, 47, 198);
+}
+
 ul{
     list-style: none;
     margin: 10;

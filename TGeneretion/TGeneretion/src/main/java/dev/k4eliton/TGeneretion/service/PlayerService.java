@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.Random;
 
 @Service
@@ -33,12 +34,12 @@ public class PlayerService {
             newPlayerRandom = players.get(random.nextInt(players.size()));
             final PlayerModel atual = newPlayerRandom;
             //verificacao se ja contem
-            if(team.stream().anyMatch(p -> p.getName().equals(atual.getName())) || atual.getIsSelected()){
+            if(atual.isSelected()){
                 i--;//para repitir o loop
             }else{//so adiciona senao tem igual
                 team.add(newPlayerRandom);
-                newPlayerRandom.setIsSelected(true);
-                update(newPlayerRandom);
+                newPlayerRandom.setSelected(true);
+                save(newPlayerRandom);
             }
         }
         return team;
@@ -47,12 +48,6 @@ public class PlayerService {
     //Criar novo player
     public PlayerModel save(PlayerModel player){
         return playerRepository.save(player);
-    }
-
-    //update de player
-    public void update(PlayerModel player){
-        playerRepository.deleteById(player.getId());
-        playerRepository.save(player);
     }
 
     //Deletar player

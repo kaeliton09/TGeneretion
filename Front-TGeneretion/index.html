@@ -11,8 +11,11 @@
         <input type="text" id="name" placeholder="Adicionar Jogador">
         <button onclick="addPlayer()">Adicionar</button>
         <ul id="listplayers"></ul>
-        <button onclick="getTeam()">Gerar Time</button>
+        <button onclick="getTeams()">Gerar Times</button>
+        <p>time 1</p>
         <ul id="team-1"></ul>
+        <p>time 2</p>
+        <ul id="team-2"></ul>
     </main>
     
     <script>
@@ -34,12 +37,26 @@
             listplayers.innerHTML = players.map(p => `<li>${p.name}</li>`).join("");
         }
 
-        async function getTeam() {
+        async function getTeam1() {
             const res = await fetch("http://localhost:8080/players/team");
             const players = await res.json();
             const listplayers = document.getElementById("team-1");
             listplayers.innerHTML = players.map(p => `<li>${p.name}</li>`).join("");
         }
+
+        async function getTeam2() {
+            const res = await fetch("http://localhost:8080/players/team");
+            const players = await res.json();
+            const listplayers = document.getElementById("team-2");
+            listplayers.innerHTML = players.map(p => `<li>${p.name}</li>`).join("");
+        }
+
+        function getTeams(){
+            getTeam1();
+            getTeam2();
+        };
+
+        setInterval(loadPlayers, 500);
 
         loadPlayers();
         

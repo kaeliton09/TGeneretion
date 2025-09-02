@@ -14,7 +14,7 @@ public class PlayerModel {
     @GeneratedValue(strategy = GenerationType.IDENTITY)//definindo regra para auto incremento na primary key
     private Long id;
     private String name;
-    private Boolean isSelected;
+    private boolean isSelected = false;
 
     @Override
     public String toString() {
